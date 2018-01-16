@@ -1,8 +1,8 @@
-import { createPath, locationsAreEqual } from 'history'
-
 import PropTypes from 'prop-types'
 import React from 'react'
+import { createPath } from 'history'
 import getLocationFromSpec from './getLocationFromSpec'
+import { locationsEqual } from './utils'
 
 const modifiedEvent = event =>
   event.metaKey || event.altKey || event.ctrlKey || event.shiftKey
@@ -92,7 +92,7 @@ class Link extends React.Component {
       const newLocation = this.getLocation(this.props, this.context)
       const path = createPath(newLocation)
 
-      if (!locationsAreEqual(oldLocation, newLocation)) {
+      if (!locationsEqual(oldLocation, newLocation)) {
         this.context.history.push(path)
       }
     }
