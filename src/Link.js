@@ -46,13 +46,18 @@ class Link extends React.Component {
   }
 
   componentWillUnmount = () => {
-    if (this.unlisten) {
+    if (this._unlisten) {
       this.unlisten()
     }
   }
 
   listen = () => {
-    this.unlisten = this.context.history.listen(this.locationListener)
+    this._unlisten = this.context.history.listen(this.locationListener)
+  }
+
+  unlisten = () => {
+    this._unlisten()
+    delete this._unlisten
   }
 
   locationListener = location => {

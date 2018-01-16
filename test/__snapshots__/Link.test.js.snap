@@ -9,6 +9,16 @@ exports[`Link links to Home Page 1`] = `
 </a>
 `;
 
+exports[`Link links to Home Page with activeProps 1`] = `
+<a
+  active={true}
+  href="/"
+  onClick={[Function]}
+>
+  Home
+</a>
+`;
+
 exports[`Link links to User Page with required path param 1`] = `
 <a
   href="/user/123"

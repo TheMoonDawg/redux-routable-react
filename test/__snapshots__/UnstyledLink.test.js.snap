@@ -16,6 +16,23 @@ exports[`UnstyledLink links to Home Page 1`] = `
 </a>
 `;
 
+exports[`UnstyledLink links to Home Page with activeProps 1`] = `
+<a
+  active={true}
+  href="/"
+  onClick={[Function]}
+  style={
+    Object {
+      "color": "initial",
+      "cursor": "initial",
+      "textDecoration": "initial",
+    }
+  }
+>
+  Home
+</a>
+`;
+
 exports[`UnstyledLink links to User Page with required path param 1`] = `
 <a
   href="/user/123"
