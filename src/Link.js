@@ -118,7 +118,7 @@ class Link extends React.Component {
 Link.propTypes = {
   children: PropTypes.node,
   route: PropTypes.string.isRequired,
-  params: PropTypes.object.isRequired,
+  params: PropTypes.object,
   activeProps: PropTypes.object,
   component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   target: PropTypes.string,
@@ -127,6 +127,7 @@ Link.propTypes = {
 }
 
 Link.defaultProps = {
+  params: {},
   component: 'a',
   isActive: defaultIsActive,
 }

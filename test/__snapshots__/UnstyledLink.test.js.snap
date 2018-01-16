@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnstyledLink links to Home Page 1`] = `
+<a
+  href="/"
+  onClick={[Function]}
+  style={
+    Object {
+      "color": "initial",
+      "cursor": "initial",
+      "textDecoration": "initial",
+    }
+  }
+>
+  Home
+</a>
+`;
+
+exports[`UnstyledLink links to User Page with required path param 1`] = `
+<a
+  href="/user/123"
+  onClick={[Function]}
+  style={
+    Object {
+      "color": "initial",
+      "cursor": "initial",
+      "textDecoration": "initial",
+    }
+  }
+>
+  User 123
+</a>
+`;
+
+exports[`UnstyledLink links to Users Page with optional path and query params 1`] = `
+<a
+  href="/users/admin?name_query=john"
+  onClick={[Function]}
+  style={
+    Object {
+      "color": "initial",
+      "cursor": "initial",
+      "textDecoration": "initial",
+    }
+  }
+>
+  All Users
+</a>
+`;
+
+exports[`UnstyledLink links to Users Page with optional path param 1`] = `
+<a
+  href="/users/admin"
+  onClick={[Function]}
+  style={
+    Object {
+      "color": "initial",
+      "cursor": "initial",
+      "textDecoration": "initial",
+    }
+  }
+>
+  All Users
+</a>
+`;
+
+exports[`UnstyledLink links to Users Page with query param 1`] = `
+<a
+  href="/users?name_query=john"
+  onClick={[Function]}
+  style={
+    Object {
+      "color": "initial",
+      "cursor": "initial",
+      "textDecoration": "initial",
+    }
+  }
+>
+  All Users
+</a>
+`;

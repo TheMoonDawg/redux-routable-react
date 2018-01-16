@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link links to Home Page 1`] = `
+<a
+  href="/"
+  onClick={[Function]}
+>
+  Home
+</a>
+`;
+
+exports[`Link links to User Page with required path param 1`] = `
+<a
+  href="/user/123"
+  onClick={[Function]}
+>
+  User 123
+</a>
+`;
+
+exports[`Link links to Users Page with optional path and query params 1`] = `
+<a
+  href="/users/admin?name_query=john"
+  onClick={[Function]}
+>
+  All Users
+</a>
+`;
+
+exports[`Link links to Users Page with optional path param 1`] = `
+<a
+  href="/users/admin"
+  onClick={[Function]}
+>
+  All Users
+</a>
+`;
+
+exports[`Link links to Users Page with query param 1`] = `
+<a
+  href="/users?name_query=john"
+  onClick={[Function]}
+>
+  All Users
+</a>
+`;

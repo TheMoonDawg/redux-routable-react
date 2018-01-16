@@ -33,6 +33,9 @@
     "eslint-plugin-react": "^7.5.1",
     "jest": "^22.1.1",
     "prettier": "^1.10.2",
+    "react": "^16.2.0",
+    "react-test-renderer": "^16.2.0",
+    "redux-routable": "^0.2.0",
     "rimraf": "^2.6.2"
   },
   "peerDependencies": {
