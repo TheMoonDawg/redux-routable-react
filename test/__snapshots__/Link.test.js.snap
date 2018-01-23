@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Link does not link to page when no route is matched 1`] = `
+<a
+  href={undefined}
+  onClick={[Function]}
+>
+  Invalid
+</a>
+`;
+
 exports[`Link links to Home Page 1`] = `
 <a
   href="/"

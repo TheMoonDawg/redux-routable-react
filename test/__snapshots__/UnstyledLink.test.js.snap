@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`UnstyledLink does not link to page when no route is matched 1`] = `
+<a
+  href={undefined}
+  onClick={[Function]}
+  style={
+    Object {
+      "color": "initial",
+      "cursor": "initial",
+      "textDecoration": "initial",
+    }
+  }
+>
+  Invalid
+</a>
+`;
+
 exports[`UnstyledLink links to Home Page 1`] = `
 <a
   href="/"

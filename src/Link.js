@@ -1,8 +1,14 @@
+import * as messages from './messages'
+
+import {
+  createSpec,
+  getLocationFromSpec,
+  getRoute,
+  locationsEqual,
+} from 'redux-routable'
+
 import PropTypes from 'prop-types'
 import React from 'react'
-import { createPath } from 'history'
-import getLocationFromSpec from './getLocationFromSpec'
-import { locationsEqual } from './utils'
 
 const modifiedEvent = event =>
   event.metaKey || event.altKey || event.ctrlKey || event.shiftKey
@@ -10,6 +16,7 @@ const modifiedEvent = event =>
 const filterProps = ({ ...props }) => {
   delete props.route
   delete props.params
+  delete props.replace
   delete props.activeProps
   delete props.component
   delete props.isActive
@@ -68,18 +75,30 @@ class Link extends React.Component {
   }
 
   getLocation = (props, context) => {
-    const spec = { route: props.route, params: props.params }
+    const route = getRoute(context.routes, props.route)
 
-    return getLocationFromSpec(context.routes, context.history.location, spec)
+    if (route !== undefined) {
+      const spec = createSpec(route, props.params)
+
+      return getLocationFromSpec(context.routes, context.history.location, spec)
+    } else {
+      return undefined
+    }
   }
 
   getHref = (props, context) => {
     const location = this.getLocation(props, context)
 
-    return context.history.createHref(location)
+    if (location !== undefined) {
+      return context.history.createHref(location)
+    } else {
+      console.warn(messages.NO_MATCH_HREF)
+
+      return undefined
+    }
   }
 
-  shouldPush = event =>
+  shouldChangeLocation = event =>
     !event.defaultPrevented && // Default not prevented
     !modifiedEvent(event) && // No modifier
     this.props.target === undefined && // Target not given
@@ -90,15 +109,22 @@ class Link extends React.Component {
       this.props.onClick(event)
     }
 
-    if (this.shouldPush(event)) {
+    if (this.shouldChangeLocation(event)) {
       event.preventDefault()
 
       const oldLocation = this.context.history.location
       const newLocation = this.getLocation(this.props, this.context)
-      const path = createPath(newLocation)
 
-      if (!locationsEqual(oldLocation, newLocation)) {
-        this.context.history.push(path)
+      if (newLocation !== undefined) {
+        if (!locationsEqual(oldLocation, newLocation)) {
+          if (this.props.replace) {
+            this.context.history.replace(newLocation)
+          } else {
+            this.context.history.push(newLocation)
+          }
+        }
+      } else {
+        console.warn(messages.NO_MATCH_CLICK)
       }
     }
   }
@@ -124,6 +150,7 @@ Link.propTypes = {
   children: PropTypes.node,
   route: PropTypes.string.isRequired,
   params: PropTypes.object,
+  replace: PropTypes.bool,
   activeProps: PropTypes.object,
   component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   target: PropTypes.string,
@@ -133,6 +160,7 @@ Link.propTypes = {
 
 Link.defaultProps = {
   params: {},
+  replace: false,
   component: 'a',
   isActive: defaultIsActive,
 }

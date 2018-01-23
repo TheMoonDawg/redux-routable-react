@@ -1,3 +1,5 @@
+import * as messages from '../src/messages'
+
 import Link from '../src/Link'
 import Provider from '../src/Provider'
 import React from 'react'
@@ -91,6 +93,17 @@ export default (description, Component) => {
       expect(tree).toMatchSnapshot()
     })
 
+    test('does not link to page when no route is matched', () => {
+      console.warn = jest.fn()
+
+      const tree = renderer
+        .create(render(<Component route="nonsense">Invalid</Component>))
+        .toJSON()
+
+      expect(tree).toMatchSnapshot()
+      expect(console.warn.mock.calls[0][0]).toBe(messages.NO_MATCH_HREF)
+    })
+
     test('listens and unlistens to history according to whether activeProps are passed', () => {
       const withActiveProps = render(
         <Component route="home" activeProps={{ active: true }}>
@@ -122,8 +135,7 @@ export default (description, Component) => {
     })
 
     test('changes the location on left-click when location is different than link', () => {
-      const preventDefault = jest.fn()
-      const event = { button: 0, preventDefault }
+      const event = { button: 0, preventDefault: jest.fn() }
       const tree = renderer.create(
         render(<Component route="home">Home</Component>),
       )
@@ -135,9 +147,42 @@ export default (description, Component) => {
       expect(oldKey).not.toBe(history.location.key)
     })
 
+    test('pushes the location on left-click', () => {
+      const event = { button: 0, preventDefault: jest.fn() }
+      const tree = renderer.create(
+        render(
+          <Component route="users" replace={false}>
+            Home
+          </Component>,
+        ),
+      )
+
+      history.replace('/')
+      const prevLength = history.length
+
+      getLinkInstance(tree).onClick(event)
+      expect(history).toHaveLength(prevLength + 1)
+    })
+
+    test('replaces the location on left-click', () => {
+      const event = { button: 0, preventDefault: jest.fn() }
+      const tree = renderer.create(
+        render(
+          <Component route="users" replace={true}>
+            Home
+          </Component>,
+        ),
+      )
+
+      history.replace('/')
+      const prevLength = history.length
+
+      getLinkInstance(tree).onClick(event)
+      expect(history).toHaveLength(prevLength)
+    })
+
     test('does not change location on left-click when location is same as link', () => {
-      const preventDefault = jest.fn()
-      const event = { button: 0, preventDefault }
+      const event = { button: 0, preventDefault: jest.fn() }
       const tree = renderer.create(
         render(<Component route="home">Home</Component>),
       )
@@ -149,10 +194,26 @@ export default (description, Component) => {
       expect(oldKey).toBe(history.location.key)
     })
 
+    test('does not change location on left-click when no route is matched', () => {
+      console.warn = jest.fn()
+
+      const event = { button: 0, preventDefault: jest.fn() }
+      const tree = renderer.create(
+        render(<Component route="nonsense">Invalid</Component>),
+      )
+
+      history.push('/')
+      const oldKey = history.location.key
+
+      getLinkInstance(tree).onClick(event)
+      expect(oldKey).toBe(history.location.key)
+      expect(console.warn.mock.calls[0][0]).toBe(messages.NO_MATCH_HREF)
+      expect(console.warn.mock.calls[1][0]).toBe(messages.NO_MATCH_CLICK)
+    })
+
     test('calls onClick function on click', () => {
       const onClick = jest.fn()
-      const preventDefault = jest.fn()
-      const event = { button: 0, preventDefault }
+      const event = { button: 0, preventDefault: jest.fn() }
       const tree = renderer.create(
         render(
           <Component route="home" onClick={onClick}>
@@ -167,8 +228,7 @@ export default (description, Component) => {
 
     test('prevents default click action on left-click', () => {
       const onClick = jest.fn()
-      const preventDefault = jest.fn()
-      const event = { button: 0, preventDefault }
+      const event = { button: 0, preventDefault: jest.fn() }
       const tree = renderer.create(
         render(
           <Component route="home" onClick={onClick}>
@@ -178,13 +238,12 @@ export default (description, Component) => {
       )
 
       getLinkInstance(tree).onClick(event)
-      expect(preventDefault).toHaveBeenCalled()
+      expect(event.preventDefault).toHaveBeenCalled()
     })
 
     test('does not prevent default click action on non-left-click', () => {
       const onClick = jest.fn()
-      const preventDefault = jest.fn()
-      const event = { button: 2, preventDefault }
+      const event = { button: 2, preventDefault: jest.fn() }
       const tree = renderer.create(
         render(
           <Component route="home" onClick={onClick}>
@@ -194,7 +253,7 @@ export default (description, Component) => {
       )
 
       getLinkInstance(tree).onClick(event)
-      expect(preventDefault).not.toHaveBeenCalled()
+      expect(event.preventDefault).not.toHaveBeenCalled()
     })
   })
 }
