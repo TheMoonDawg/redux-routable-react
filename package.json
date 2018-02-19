@@ -11,7 +11,8 @@
   "scripts": {
     "fix": "eslint --fix \"{src,test}/**/*.js\"",
     "test": "jest",
-    "build": "rimraf lib && babel src --ignore *.spec.js --out-dir lib"
+    "build": "rimraf lib && babel src --ignore *.spec.js --out-dir lib",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
