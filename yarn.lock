@@ -3211,9 +3211,9 @@ realpath-native@^1.0.0:
   dependencies:
     util.promisify "^1.0.0"
 
-redux-routable@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/redux-routable/-/redux-routable-0.4.3.tgz#d277892bec22974b899b21bd393b79a891c91e93"
+redux-routable@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/redux-routable/-/redux-routable-0.4.4.tgz#62b3837ad0b3bd1c35237e3bec5232c3521267d4"
   dependencies:
     babel-runtime "^6.26.0"
     history "^4.7.2"
